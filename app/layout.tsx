@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { sfUIDisplay } from "./fonts";
+import { ThemeProvider } from "@/context/ThemeProvider";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "ResQ SOS Mien Trung",
+  title: "CEC Center – LAS XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
   description:
-    "Hệ thống tiếp nhận tin báo SOS và điều phối cứu hộ khẩn cấp, hỗ trợ kịp thời cho người dân khu vực Miền Trung.",
+    "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình (CEC Center) – Phòng thí nghiệm LAS-XD 449, chứng nhận ISO/IEC 17025:2017. Dịch vụ tư vấn, kiểm định, thí nghiệm và giám sát chất lượng công trình tại TP.HCM.",
 };
 
 export default function RootLayout({
@@ -14,8 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${sfUIDisplay.variable} antialiased`}>{children}</body>
+    <html lang="vi" suppressHydrationWarning>
+      <body className={`${sfUIDisplay.variable} antialiased`}>
+        <ThemeProvider>
+          <LanguageProvider>{children}</LanguageProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
