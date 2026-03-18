@@ -12,7 +12,7 @@ const vi = {
     title_line1: "TƯ VẤN",
     title_line2: "KIỂM ĐỊNH",
     title_line3: "KỸ THUẬT.",
-    subtitle: "Construction Engineering Verification Consultant Center",
+    subtitle: "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
     description:
       "Cung cấp dịch vụ tư vấn, kiểm định, thí nghiệm và giám sát chất lượng công trình xây dựng với đội ngũ chuyên gia giàu kinh nghiệm và hệ thống phòng thí nghiệm hiện đại đạt chuẩn quốc tế.",
     cta_primary: "Tìm hiểu thêm",

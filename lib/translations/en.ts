@@ -14,7 +14,7 @@ const en: Translations = {
     title_line1: "CONSULTING",
     title_line2: "INSPECTION",
     title_line3: "EXCELLENCE.",
-    subtitle: "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
+    subtitle: "Construction Engineering Verification Consultant Center",
     description:
       "Providing consulting, inspection, testing, and quality supervision services for construction works with a team of experienced experts and a modern, internationally certified laboratory system.",
     cta_primary: "Learn More",

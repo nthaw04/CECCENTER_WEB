@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MapPin, Phone, Envelope, Clock, PaperPlaneTilt } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +19,29 @@ export function ContactSection() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+
+  gsap.registerPlugin(ScrollTrigger);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el.querySelector(".gsap-header"),
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" } }
+      );
+      gsap.fromTo(
+        el.querySelectorAll(".gsap-col"),
+        { opacity: 0, x: (i) => (i === 0 ? -50 : 50) },
+        { opacity: 1, x: 0, duration: 0.75, ease: "power3.out", stagger: 0.1,
+          scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none none" } }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,10 +80,10 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-background tracking-tighter">
+    <section ref={sectionRef} id="contact" className="py-20 lg:py-28 bg-background tracking-tighter">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-2xl mx-auto text-center mb-14">
+        <div className="max-w-2xl mx-auto text-center mb-14 gsap-header">
           <div className="flex justify-center mb-2">
             <Badge
               variant="outline"
@@ -78,12 +103,12 @@ export function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Info */}
-          <Card className="border-border">
+          <Card className="border-border gsap-col">
             <CardContent className="p-6 lg:p-8 space-y-5">
-              {contactItems.map(({ icon: Icon, label, value, href }) => (
+              {contactItems.map(({ icon: Icon, label, value, href }, idx) => (
                 <div key={label} className="flex gap-4">
                   <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="h-4.5 w-4.5 text-primary" weight="fill" />
+                    <Icon className="h-4.5 w-4.5" weight="fill" style={{ color: idx % 2 === 1 ? "#FE9D6F" : "#93CAF0" }} />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground font-medium mb-0.5">
@@ -106,7 +131,7 @@ export function ContactSection() {
               <Separator />
 
               <div className="text-center pt-2">
-                <p className="text-sm font-bold text-primary italic">
+                <p className="text-sm font-bold italic" style={{ color: "#FE9D6F" }}>
                   &ldquo;{t.contact.thank_you}&rdquo;
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
@@ -117,7 +142,7 @@ export function ContactSection() {
           </Card>
 
           {/* Contact Form */}
-          <Card className="border-border">
+          <Card className="border-border gsap-col">
             <CardContent className="p-6 lg:p-8">
               <h3 className="font-bold text-foreground mb-5">
                 {t.contact.send_message}

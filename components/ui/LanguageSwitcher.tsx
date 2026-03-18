@@ -12,7 +12,7 @@ export function LanguageSwitcher() {
       variant="ghost"
       size="sm"
       onClick={toggleLanguage}
-      className="flex items-center gap-1.5 font-medium text-sm px-2"
+      className="flex items-center gap-1.5 font-medium text-sm px-2 rounded-none"
       aria-label="Switch language"
     >
       <Globe className="h-4 w-4" weight="bold" />

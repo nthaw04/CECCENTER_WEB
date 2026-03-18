@@ -1,7 +1,12 @@
 "use client";
 
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Separator } from "@/components/ui/separator";
 import { useLanguage } from "@/context/LanguageContext";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const PARAGRAPHS_VI = [
   <><strong>TRUNG TÂM TƯ VẤN KIỂM ĐỊNH KỸ THUẬT CÔNG TRÌNH</strong> được thành lập theo chứng nhận đăng ký hoạt động Khoa học và Công nghệ số 135/ĐK-KHCN do Sở Khoa học &amp; Công nghệ thành phố Hồ Chí Minh cấp lần đầu ngày 30/05/2006 và chứng nhận đăng ký bổ sung lần 6 ngày 08/07/2025.</>,
@@ -27,15 +32,34 @@ export function AboutSection() {
   const introTitle = locale === "vi" ? "GIỚI THIỆU" : "ABOUT US";
   const projectsTitle = locale === "vi" ? "Các dự án đã và đang tham gia" : "Projects";
 
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el.querySelectorAll(".gsap-reveal"),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0, duration: 0.75, ease: "power3.out",
+          stagger: 0.12,
+          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
+        }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="about" className="py-20 lg:py-28 bg-background">
+    <section ref={sectionRef} id="about" className="py-20 lg:py-28 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Two-column layout: 2/3 left | 1/3 right */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16">
 
           {/* ── Left column (2/3) ── */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-8 gsap-reveal">
             {/* Column title */}
             <div>
               <p className="text-xs font-bold tracking-[0.25em] uppercase mb-2" style={{ color: "#93CAF0" }}>
@@ -58,10 +82,9 @@ export function AboutSection() {
           </div>
 
           {/* ── Right column (1/3) ── */}
-          <div className="lg:col-span-1 space-y-8">
+          <div className="lg:col-span-1 space-y-8 gsap-reveal">
             <div>
-              <p className="text-xs font-bold tracking-[0.25em] uppercase mb-2" style={{ color: "#93CAF0" }}>
-                {locale === "vi" ? "Dự án" : "Projects"}
+              <p className="text-xs font-bold tracking-[0.25em] uppercase mb-2" style={{ color: "#FE9D6F" }}>
               </p>
               <h2 className="text-2xl lg:text-3xl font-black tracking-tighter text-foreground leading-tight">
                 {projectsTitle}

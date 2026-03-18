@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
 import { ArrowRight, CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,28 @@ export function HeroSection() {
   const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Entrance animation on mount
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el.querySelectorAll(".hero-anim"),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.13,
+          delay: 0.2,
+        }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
 
   const goTo = useCallback(
     (idx: number) => {
@@ -99,18 +122,18 @@ export function HeroSection() {
       ))}
 
       {/* ── Content ─────────────────────────────────────────── */}
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-28">
+      <div ref={contentRef} className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-28">
         <div className="max-w-3xl space-y-6">
           {/* Eyebrow */}
           <p
-            className="text-xs sm:text-sm font-bold tracking-[0.3em] uppercase"
+            className="hero-anim text-xs sm:text-sm font-bold tracking-[0.3em] uppercase"
             style={{ color: "#93CAF0" }}
           >
             {t.hero.badge}
           </p>
 
           {/* Impact title */}
-          <h1 className="font-black uppercase leading-[0.9] tracking-tight">
+          <h1 className="hero-anim font-black uppercase leading-[0.9] tracking-tight">
             <span className="block text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] text-white">
               {t.hero.title_line1}
             </span>
@@ -119,19 +142,24 @@ export function HeroSection() {
             </span>
             <span
               className="block text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
-              style={{ WebkitTextStroke: "2px white", color: "transparent" }}
+              style={{ color: "#93CAF0" }}
             >
               {t.hero.title_line3}
             </span>
           </h1>
 
+          {/* Full org name subtitle */}
+          <p className="hero-anim text-sm sm:text-base font-semibold text-white/60 uppercase tracking-widest leading-snug max-w-2xl">
+            {t.hero.subtitle}
+          </p>
+
           {/* Description */}
-          <p className="text-sm sm:text-base text-white/70 max-w-lg leading-relaxed">
+          <p className="hero-anim text-sm sm:text-base text-white/70 max-w-lg leading-relaxed">
             {t.hero.description}
           </p>
 
           {/* CTA */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="hero-anim flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={() => scrollTo("about")}
               className="group flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-widest text-black transition-all duration-200 hover:brightness-90 active:scale-[0.97]"
@@ -145,7 +173,10 @@ export function HeroSection() {
             </button>
             <button
               onClick={() => scrollTo("contact")}
-              className="flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-widest text-white border-2 border-white hover:bg-white hover:text-black transition-all duration-200 active:scale-[0.97]"
+              className="flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-widest transition-all duration-200 active:scale-[0.97]"
+              style={{ color: "#FE9D6F", border: "2px solid #FE9D6F" }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FE9D6F"; e.currentTarget.style.color = "#000"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#FE9D6F"; }}
             >
               {t.hero.cta_secondary}
             </button>

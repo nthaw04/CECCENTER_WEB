@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { List, X } from "@phosphor-icons/react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
@@ -19,6 +20,7 @@ const NAV_ITEMS = [
 
 export function Header() {
   const { t } = useLanguage();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -32,8 +34,8 @@ export function Header() {
     setMenuOpen(false);
   };
 
-  /* On hero: transparent + white text. After scroll: solid background */
-  const onHero = !scrolled;
+  /* Transparent only on the home page before scrolling */
+  const onHero = pathname === "/" && !scrolled;
 
   return (
     <header
@@ -108,7 +110,7 @@ export function Header() {
                 key={key}
                 href={href}
                 className={cn(
-                  "px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                  "px-3 py-2 text-sm font-medium transition-colors",
                   onHero
                     ? "text-white/80 hover:text-white hover:bg-white/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -131,7 +133,7 @@ export function Header() {
             {/* Mobile toggle */}
             <button
               className={cn(
-                "lg:hidden w-9 h-9 flex items-center justify-center rounded-md transition-colors",
+                "lg:hidden w-9 h-9 flex items-center justify-center transition-colors",
                 onHero ? "text-white hover:bg-white/10" : "text-foreground hover:bg-accent"
               )}
               onClick={() => setMenuOpen((p) => !p)}
@@ -168,7 +170,7 @@ export function Header() {
               href={href}
               onClick={handleNavClick}
               className={cn(
-                "block px-3 py-2.5 text-sm font-medium rounded-md transition-colors",
+                  "block px-3 py-2.5 text-sm font-medium transition-colors",
                 onHero
                   ? "text-white/80 hover:text-white hover:bg-white/10"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent"

@@ -1,5 +1,8 @@
 "use client";
 
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HardHat, GraduationCap, Wrench, BookOpen, Users } from "@phosphor-icons/react";
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,11 +21,34 @@ const LEVEL_ICONS: Record<string, PhosphorIcon> = {
 export function TeamSection() {
   const { t } = useLanguage();
 
+  gsap.registerPlugin(ScrollTrigger);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el.querySelector(".gsap-header"),
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" } }
+      );
+      gsap.fromTo(
+        el.querySelectorAll(".gsap-col"),
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.15,
+          scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none none" } }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="team" className="py-20 lg:py-28 bg-background tracking-tighter">
+    <section ref={sectionRef} id="team" className="py-20 lg:py-28 bg-background tracking-tighter">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-2xl mx-auto text-center mb-14">
+        <div className="max-w-2xl mx-auto text-center mb-14 gsap-header">
           <div className="flex justify-center mb-2">
             <Badge
               variant="outline"
@@ -39,7 +65,7 @@ export function TeamSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* Description */}
-          <div className="space-y-6">
+          <div className="space-y-6 gsap-col">
             <p className="text-base text-muted-foreground leading-relaxed">
               {t.team.description}
             </p>
@@ -69,10 +95,10 @@ export function TeamSection() {
           </div>
 
           {/* Visual stat card */}
-          <Card className="border-border">
+          <Card className="border-border gsap-col">
             <CardContent className="p-8 text-center space-y-6">
               <div className="space-y-2">
-                <p className="text-5xl font-black text-primary">2006</p>
+                <p className="text-5xl font-black" style={{ color: "#FE9D6F" }}>2006</p>
                 <p className="text-sm text-muted-foreground font-medium">
                   Năm thành lập
                 </p>
@@ -80,7 +106,7 @@ export function TeamSection() {
               <Separator />
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-1">
-                  <p className="text-3xl font-black text-foreground">19+</p>
+                  <p className="text-3xl font-black" style={{ color: "#FE9D6F" }}>19+</p>
                   <p className="text-xs text-muted-foreground">
                     Năm kinh nghiệm
                   </p>

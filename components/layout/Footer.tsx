@@ -48,7 +48,7 @@ export function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-card border-t border-border tracking-tighter">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
 
@@ -92,7 +92,7 @@ export function Footer() {
                 <span className="text-sm text-muted-foreground">{t.about.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0" style={{ color: "#93CAF0" }} weight="fill" />
+                <Phone className="h-4 w-4 shrink-0" style={{ color: "#FE9D6F" }} weight="fill" />
                 <a
                   href={`tel:${t.about.phone.replace(/\s/g, "")}`}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -134,7 +134,7 @@ export function Footer() {
           <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {NAV_GROUPS.map(({ titleKey, links }) => (
               <div key={titleKey} className="space-y-4">
-                <h4 className="font-bold text-xs text-foreground uppercase tracking-widest">
+                <h4 className="font-bold text-xs uppercase tracking-widest" style={{ color: "#FE9D6F" }}>
                   {t.footer[titleKey]}
                 </h4>
                 <ul className="space-y-2">

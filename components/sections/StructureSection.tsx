@@ -1,5 +1,8 @@
 "use client";
 
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CheckCircle, Certificate, Handshake, Target } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,11 +12,34 @@ import { useLanguage } from "@/context/LanguageContext";
 export function StructureSection() {
   const { t } = useLanguage();
 
+  gsap.registerPlugin(ScrollTrigger);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el.querySelector(".gsap-header"),
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" } }
+      );
+      gsap.fromTo(
+        el.querySelectorAll(".gsap-card"),
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.65, ease: "power3.out", stagger: 0.12,
+          scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none none" } }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="structure" className="py-20 lg:py-28 bg-muted/20 tracking-tighter">
+    <section ref={sectionRef} id="structure" className="py-20 lg:py-28 bg-muted/20 tracking-tighter">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-2xl mx-auto text-center mb-14">
+        <div className="max-w-2xl mx-auto text-center mb-14 gsap-header">
           <div className="flex justify-center mb-2">
             <Badge
               variant="outline"
@@ -30,7 +56,7 @@ export function StructureSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Org Structure */}
-          <Card className="border-border">
+          <Card className="border-border gsap-card">
             <CardContent className="p-6 lg:p-8 space-y-4">
               <h3 className="font-bold text-foreground flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-primary" weight="fill" />
@@ -50,7 +76,7 @@ export function StructureSection() {
           </Card>
 
           {/* Certifications */}
-          <Card className="border-border">
+          <Card className="border-border gsap-card">
             <CardContent className="p-6 lg:p-8 space-y-4">
               <h3 className="font-bold text-foreground flex items-center gap-2">
                 <Certificate className="h-5 w-5 text-primary" weight="fill" />
@@ -72,7 +98,7 @@ export function StructureSection() {
 
         {/* Mission & Cooperation */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="border-border bg-primary/5">
+          <Card className="border-border bg-primary/5 gsap-card">
             <CardContent className="p-6 lg:p-8 space-y-4">
               <h3 className="font-bold text-foreground flex items-center gap-2">
                 <Target className="h-5 w-5 text-primary" weight="fill" />
@@ -85,14 +111,14 @@ export function StructureSection() {
                 <p className="text-xs text-muted-foreground mb-1.5 uppercase tracking-wider font-semibold">
                   Phương châm
                 </p>
-                <blockquote className="border-l-2 border-primary pl-3 italic text-sm font-semibold text-primary">
+                <blockquote className="border-l-2 pl-3 italic text-sm font-semibold" style={{ borderColor: "#FE9D6F", color: "#FE9D6F" }}>
                   &ldquo;{t.structure.slogan}&rdquo;
                 </blockquote>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-border">
+          <Card className="border-border gsap-card">
             <CardContent className="p-6 lg:p-8 space-y-4">
               <h3 className="font-bold text-foreground flex items-center gap-2">
                 <Handshake className="h-5 w-5 text-primary" weight="fill" />
@@ -113,7 +139,7 @@ export function StructureSection() {
                   "Nghị định 175/2024/NĐ-CP ngày 30/12/2024",
                 ].map((decree, i) => (
                   <div key={i} className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: "#FE9D6F" }} />
                     <span className="text-xs text-muted-foreground">{decree}</span>
                   </div>
                 ))}
