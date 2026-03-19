@@ -50,7 +50,7 @@ export function Footer() {
   return (
     <footer className="bg-card border-t border-border tracking-tighter">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
 
           {/* ── Left column: brand + contact + social ─────── */}
           <div className="lg:col-span-1 space-y-5">
@@ -129,7 +129,7 @@ export function Footer() {
           </div>
 
           {/* ── Right columns: nav groups ─────────────────── */}
-          <div className="lg:col-span-3 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="lg:col-span-2 grid grid-cols-2 gap-8">
             {NAV_GROUPS.map(({ titleKey, links }) => (
               <div key={titleKey} className="space-y-4">
                 <h4 className="font-bold text-xs uppercase tracking-widest" style={{ color: "#FE9D6F" }}>
@@ -155,6 +155,25 @@ export function Footer() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          {/* ── Map column ───────────────────────────────── */}
+          <div className="lg:col-span-2 flex flex-col gap-2">
+            <h4 className="font-bold text-xs uppercase tracking-widest" style={{ color: "#FE9D6F" }}>
+              Vị Trí
+            </h4>
+            <div className="w-full h-52 lg:h-full min-h-44 overflow-hidden border border-border">
+              <iframe
+                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent("302 Gò Dưa, Phường Tam Bình, Thành phố Hồ Chí Minh")}&zoom=16&language=vi`}
+                width="100%"
+                height="100%"
+                style={{ border: 0, display: "block" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="CEC Center Location"
+              />
+            </div>
           </div>
         </div>
 

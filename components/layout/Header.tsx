@@ -4,8 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { List, X, MagnifyingGlass, Sun, Moon } from "@phosphor-icons/react";
+import { List, X, MagnifyingGlass, Sun, Moon, MapPin } from "@phosphor-icons/react";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { MapModal } from "@/components/ui/MapModal";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ export function Header() {
   const pathname  = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mapOpen, setMapOpen] = useState(false);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -38,9 +40,21 @@ export function Header() {
   return (
     <header className="sticky top-0 left-0 right-0 z-50 shadow-sm bg-background border-b border-border">
 
+      <MapModal open={mapOpen} onClose={() => setMapOpen(false)} />
+
       {/* ── Top bar ── */}
       <div style={{ backgroundColor: BLUE_DK }}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-end h-9 gap-2">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9 gap-2">
+          {/* Address */}
+          <button
+            onClick={() => setMapOpen(true)}
+            className="hidden sm:flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-xs"
+            aria-label="Xem bản đồ"
+          >
+            <MapPin className="h-3.5 w-3.5" weight="fill" />
+            <span>302 Gò Dưa, Phường Tam Bình, TP. Hồ Chí Minh</span>
+          </button>
+          <div className="flex items-center gap-2 ml-auto">
           <LanguageSwitcher />
           <span className="w-px h-4 bg-white/20" />
           <button
@@ -53,6 +67,7 @@ export function Header() {
               : <Moon className="h-4 w-4" weight="bold" />
             }
           </button>
+          </div>
         </div>
       </div>
 

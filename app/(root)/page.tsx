@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ProjectsPreview } from "@/components/sections/ProjectsPreview";
+import { PartnersPreview } from "@/components/sections/PartnersPreview";
 
 export default function Home() {
   return (
@@ -21,6 +22,13 @@ export default function Home() {
                 <ProjectsPreview />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Partners section */}
+        <div className="bg-muted/20 pb-8">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <PartnersPreview />
           </div>
         </div>
       </main>
