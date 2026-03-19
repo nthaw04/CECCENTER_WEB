@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
+import { ProjectsPreview } from "@/components/sections/ProjectsPreview";
 
 export default function Home() {
   return (
@@ -9,9 +10,22 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroSection />
-        <AboutSection />
+        {/* Two-column content grid */}
+        <div className="bg-muted/20 py-8">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+              <div className="lg:col-span-3">
+                <AboutSection />
+              </div>
+              <div className="lg:col-span-2">
+                <ProjectsPreview />
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
       <Footer />
     </div>
   );
 }
+

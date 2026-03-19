@@ -1,182 +1,149 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { List, X } from "@phosphor-icons/react";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { List, X, MagnifyingGlass, Sun, Moon } from "@phosphor-icons/react";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
+/* Brand palette */
+const BLUE_DK = "#4A90C4";   /* top bar + active tab          */
+const BLUE_LT = "rgba(73,144,196,0.10)"; /* hover bg light tint */
+const TEXT_DK = "#0a2847";   /* dark navy text                */
+
 const NAV_ITEMS = [
-  { key: "about" as const, href: "/#about" },
-  { key: "services" as const, href: "/services" },
-  { key: "team" as const, href: "/team" },
-  { key: "structure" as const, href: "/structure" },
-  { key: "contact" as const, href: "/contact" },
+  { key: "home",      label_vi: "Trang Chủ",  label_en: "Home",     href: "/" },
+  { key: "services",  label_vi: "Lĩnh Vực",   label_en: "Services", href: "/services" },
+  { key: "structure", label_vi: "Dự Án",      label_en: "Projects", href: "/structure" },
+  { key: "team",      label_vi: "Nhân Lực",   label_en: "Team",     href: "/team" },
+  { key: "contact",   label_vi: "Liên Hệ",    label_en: "Contact",  href: "/contact" },
 ];
 
 export function Header() {
-  const { t } = useLanguage();
-  const pathname = usePathname();
+  const { locale } = useLanguage();
+  const pathname  = usePathname();
+  const { resolvedTheme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleNavClick = () => {
-    setMenuOpen(false);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    const base = href.split("#")[0];
+    return base !== "/" && pathname.startsWith(base);
   };
 
-  /* Transparent only on the home page before scrolling */
-  const onHero = pathname === "/" && !scrolled;
-
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        onHero
-          ? "bg-transparent"
-          : "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
-      )}
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* ── Logo ─────────────────────────────────────── */}
-          <Link
-            href="/"
-            className="flex items-center gap-3 shrink-0"
-            aria-label="CEC Center Home"
-          >
-            <div className="relative w-10 h-10 lg:w-12 lg:h-12 shrink-0">
-              <Image
-                src="/images/cec.svg"
-                alt="CEC Center Logo"
-                fill
-                className="object-contain"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
-              {/* Fallback initials */}
-              {/* <div
-                className={cn(
-                  "w-full h-full flex items-center justify-center border-2",
-                  onHero
-                    ? "border-white/40 bg-white/10"
-                    : "border-primary/30 bg-primary/10"
-                )}
-              >
-                <span
-                  className={cn(
-                    "text-xs font-black",
-                    onHero ? "text-white" : "text-primary"
-                  )}
-                >
-                  CEC
-                </span>
-              </div> */}
-            </div>
-            <div className="hidden sm:block">
-              <p
-                className={cn(
-                  "font-bold text-sm lg:text-base leading-tight",
-                  onHero ? "text-white" : "text-foreground"
-                )}
-              >
-                CEC Center
-              </p>
-              <p
-                className={cn(
-                  "text-[10px] lg:text-xs leading-tight",
-                  onHero ? "text-white/60" : "text-muted-foreground"
-                )}
-              >
-                LAS - XD 449
-              </p>
-            </div>
-          </Link>
+    <header className="sticky top-0 left-0 right-0 z-50 shadow-sm bg-background border-b border-border">
 
-          {/* ── Desktop Nav ───────────────────────────────── */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {NAV_ITEMS.map(({ key, href }) => (
-              <Link
-                key={key}
-                href={href}
-                className={cn(
-                  "px-3 py-2 text-sm font-medium transition-colors",
-                  onHero
-                    ? "text-white/80 hover:text-white hover:bg-white/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                )}
-              >
-                {t.nav[key]}
-              </Link>
-            ))}
-          </nav>
-
-          {/* ── Controls ──────────────────────────────────── */}
-          <div
-            className={cn(
-              "flex items-center gap-1",
-              onHero && "[&_button]:text-white [&_button:hover]:bg-white/10 [&_svg]:text-white"
-            )}
+      {/* ── Top bar ── */}
+      <div style={{ backgroundColor: BLUE_DK }}>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-end h-9 gap-2">
+          <LanguageSwitcher />
+          <span className="w-px h-4 bg-white/20" />
+          <button
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            aria-label="Toggle theme"
+            className="flex items-center justify-center w-7 h-7 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
           >
-            <LanguageSwitcher />
-            <ThemeToggle />
-            {/* Mobile toggle */}
-            <button
-              className={cn(
-                "lg:hidden w-9 h-9 flex items-center justify-center transition-colors",
-                onHero ? "text-white hover:bg-white/10" : "text-foreground hover:bg-accent"
-              )}
-              onClick={() => setMenuOpen((p) => !p)}
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-            >
-              {menuOpen ? (
-                <X className="h-5 w-5" weight="bold" />
-              ) : (
-                <List className="h-5 w-5" weight="bold" />
-              )}
-            </button>
-          </div>
+            {resolvedTheme === "dark"
+              ? <Sun className="h-4 w-4" weight="bold" />
+              : <Moon className="h-4 w-4" weight="bold" />
+            }
+          </button>
         </div>
       </div>
 
-      {/* ── Mobile menu ───────────────────────────────────── */}
-      <div
-        className={cn(
-          "lg:hidden overflow-hidden transition-all duration-300",
-          onHero ? "border-t border-white/10" : "border-t border-border",
-          menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-        )}
-      >
-        <nav
-          className={cn(
-            "px-4 py-3 space-y-1",
-            onHero ? "bg-black/60 backdrop-blur-md" : "bg-background/95 backdrop-blur-md"
-          )}
-        >
-          {NAV_ITEMS.map(({ key, href }) => (
+      {/* ── Main bar ── */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-stretch h-14 lg:h-16">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 pr-6 shrink-0" aria-label="CEC Center Home">
+            <div className="relative w-10 h-10 shrink-0 bg-white/10 p-1">
+              <Image
+                src="/images/cec-logo.png"
+                alt="CEC"
+                fill
+                className="object-contain"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              />
+            </div>
+            <div className="hidden sm:block leading-tight">
+              <p className="font-black text-sm lg:text-base tracking-tight" style={{ color: TEXT_DK }}>CEC Center</p>
+              <p className="text-[10px] lg:text-xs" style={{ color: TEXT_DK, opacity: 0.6 }}>LAS - XD 449</p>
+            </div>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-stretch flex-1">
+            {NAV_ITEMS.map(({ key, label_vi, label_en, href }) => {
+              const active = isActive(href);
+              return (
+                <Link
+                  key={key}
+                  href={href}
+                  className={cn(
+                    "flex items-center px-2 xl:px-3 text-base font-semibold tracking-tight whitespace-nowrap transition-colors",
+                    active ? "text-white" : ""
+                  )}
+                  style={active
+                    ? { backgroundColor: BLUE_DK, color: "white" }
+                    : { color: TEXT_DK }
+                  }
+                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = BLUE_LT; }}
+                  onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = ""; }}
+                >
+                  {locale === "vi" ? label_vi : label_en}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Search + mobile toggle */}
+          <div className="flex items-center gap-1 ml-auto">
+            <button
+              aria-label="Search"
+              className="w-10 h-10 flex items-center justify-center border transition-colors"
+              style={{ borderColor: TEXT_DK + "50", color: TEXT_DK }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = BLUE_LT; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ""; }}
+            >
+              <MagnifyingGlass className="h-4 w-4" weight="bold" />
+            </button>
+            <button
+              className="lg:hidden w-10 h-10 flex items-center justify-center transition-colors"
+              style={{ color: TEXT_DK }}
+              onClick={() => setMenuOpen(p => !p)}
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <X className="h-5 w-5" weight="bold" /> : <List className="h-5 w-5" weight="bold" />}
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Mobile menu ── */}
+      <div className={cn(
+        "lg:hidden overflow-hidden transition-all duration-300",
+        menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+      )} style={{ backgroundColor: BLUE_DK }}>
+        <nav className="px-4 py-2 space-y-0.5">
+          {NAV_ITEMS.map(({ key, label_vi, label_en, href }) => (
             <Link
               key={key}
               href={href}
-              onClick={handleNavClick}
+              onClick={() => setMenuOpen(false)}
               className={cn(
-                  "block px-3 py-2.5 text-sm font-medium transition-colors",
-                onHero
-                  ? "text-white/80 hover:text-white hover:bg-white/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                "block px-3 py-2.5 text-sm font-bold transition-colors hover:bg-white/20",
+                isActive(href) ? "text-white" : ""
               )}
+              style={isActive(href) ? { backgroundColor: BLUE_DK, color: "white" } : { color: TEXT_DK }}
             >
-              {t.nav[key]}
+              {locale === "vi" ? label_vi : label_en}
             </Link>
           ))}
         </nav>

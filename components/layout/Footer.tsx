@@ -66,9 +66,7 @@ export function Footer() {
                     (e.currentTarget as HTMLImageElement).style.display = "none";
                   }}
                 />
-                <div className="w-full h-full flex items-center justify-center border-2 border-primary/30 bg-primary/10">
-                  <span className="text-xs font-black text-primary">CEC</span>
-                </div>
+                
               </div>
               <div>
                 <p className="font-black text-base text-foreground leading-tight">
