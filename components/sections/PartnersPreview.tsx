@@ -10,6 +10,14 @@ gsap.registerPlugin(ScrollTrigger);
 const ORANGE = "#FE9D6F";
 
 const PARTNERS = [
+    {
+    logo: "/images/khach_hang/khachhang3.png",
+    name: "Công ty cổ phần iDECO Việt Nam",
+  },
+   {
+    logo: "/images/khach_hang/khachhang4.png",
+    name: "Chi nhánh phía Nam - Tổng công ty xây dựng Trường Sơn",
+  },
   {
     logo: "/images/khach_hang/khachhang1.png",
     name: "Công ty Cổ phần Công nghệ Xây dựng Solar Cons ",
@@ -17,10 +25,6 @@ const PARTNERS = [
   {
     logo: "/images/khach_hang/khachhang2.png",
     name: "Tổng công ty 319 BQP",
-  },
-  {
-    logo: "/images/khach_hang/khachhang3.png",
-    name: "Công ty cổ phần iDECO Việt Nam",
   },
 ];
 
@@ -65,7 +69,7 @@ export function PartnersPreview() {
       </div>
 
       {/* Partners grid */}
-      <div className="p-4 grid grid-cols-3 gap-4">
+      <div className="p-4 grid grid-cols-4 gap-4">
         {PARTNERS.map((partner) => (
           <div
             key={partner.name}
