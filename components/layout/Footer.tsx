@@ -66,7 +66,6 @@ export function Footer() {
                     (e.currentTarget as HTMLImageElement).style.display = "none";
                   }}
                 />
-                
               </div>
               <div>
                 <p className="font-black text-base text-foreground leading-tight">

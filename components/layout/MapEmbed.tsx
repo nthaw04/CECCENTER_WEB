@@ -3,7 +3,7 @@ const MAPS_QUERY = encodeURIComponent(ADDRESS);
 
 export function MapEmbed() {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  const haKey = apiKey && apiKey !== "AIzaSyDAX06ZrKiNfBiR2qvTdlEOkxdS9hhIHik";
+  const haKey = apiKey && apiKey !== "your_api_key_here";
 
   return (
     <div className="w-full h-72 sm:h-80 md:h-96">
