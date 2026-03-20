@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ListIcon, XIcon, MagnifyingGlassIcon, MapPinIcon, SunDimIcon, MoonStarsIcon } from "@phosphor-icons/react";
+import { ListIcon, XIcon, MagnifyingGlassIcon, MapPinIcon } from "@phosphor-icons/react";
+import { X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useLanguage } from "@/context/LanguageContext";
-import { useTheme } from "next-themes";
+import useSearch from "@/hooks/useSearch";
 import { cn } from "@/lib/utils";
 
 /* Brand palette */
@@ -26,11 +27,14 @@ const NAV_ITEMS = [
 export function Header() {
   const { locale } = useLanguage();
   const pathname  = usePathname();
-  const { resolvedTheme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
+  const searchWrapRef = useRef<HTMLDivElement | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [indicatorStyle, setIndicatorStyle] = useState({ x: 0, width: 0, opacity: 0 });
+  const { query, setQuery, results, isLoading, clearSearch } = useSearch();
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -68,6 +72,67 @@ export function Header() {
     return () => window.removeEventListener("resize", updateIndicator);
   }, [activeKey, locale]);
 
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setSearchOpen(false);
+      clearSearch();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [pathname, clearSearch]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+
+    const onPointerDown = (event: MouseEvent | TouchEvent) => {
+      if (!searchWrapRef.current) return;
+      const target = event.target as Node;
+      if (!searchWrapRef.current.contains(target)) {
+        setSearchOpen(false);
+      }
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSearchOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [searchOpen]);
+
+  const getTypeLabel = (type: "page" | "section" | "feature" | "contact") => {
+    if (locale === "vi") {
+      if (type === "page") return "Trang";
+      if (type === "section") return "Mục";
+      if (type === "feature") return "Dịch vụ";
+      return "Liên hệ";
+    }
+
+    if (type === "page") return "Page";
+    if (type === "section") return "Section";
+    if (type === "feature") return "Feature";
+    return "Contact";
+  };
+
   return (
     <header className="sticky top-0 left-0 right-0 z-50 shadow-sm bg-background border-b border-border">
 
@@ -86,18 +151,7 @@ export function Header() {
             <span>302 Gò Dưa, Phường Tam Bình, TP. Hồ Chí Minh</span>
           </a>
           <div className="flex items-center gap-2 ml-auto">
-          <LanguageSwitcher />
-          <span className="w-px h-4 bg-white/20" />
-          <button
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-            aria-label="Toggle theme"
-            className="flex items-center justify-center w-7 h-7 text-white/70 hover:text-white hover:bg-white/10 hover:rounded-[9999px] transition-colors"
-          >
-            {resolvedTheme === "dark"
-              ? <SunDimIcon className="h-4 w-4" weight="bold" />
-              : <MoonStarsIcon className="h-4 w-4" weight="bold" />
-            }
-          </button>
+            <LanguageSwitcher />
           </div>
         </div>
       </div>
@@ -158,13 +212,94 @@ export function Header() {
 
           {/* Search + mobile toggle */}
           <div className="flex items-center gap-1 ml-auto">
-            <button
-              aria-label="Search"
-              className="w-10 h-10 flex items-center justify-center transition-colors"
-              style={{ borderColor: TEXT_DK + "50", color: TEXT_DK }}
-            >
-              <MagnifyingGlassIcon className="h-6 w-6" weight="regular" />
-            </button>
+            <div ref={searchWrapRef} className="relative">
+              <button
+                type="button"
+                aria-label="Search"
+                className="w-10 h-10 flex items-center justify-center transition-colors"
+                style={{ borderColor: TEXT_DK + "50", color: TEXT_DK }}
+                onClick={() => setSearchOpen((prev) => !prev)}
+              >
+                <MagnifyingGlassIcon className="h-6 w-6" weight="regular" />
+              </button>
+
+              {searchOpen && (
+                <div className="absolute right-0 top-[calc(100%+10px)] z-70 w-[92vw] max-w-md overflow-hidden rounded-xl border border-border bg-background shadow-xl">
+                  <div className="flex items-center gap-2 border-b border-border px-3">
+                    <MagnifyingGlassIcon className="h-5 w-5 text-muted-foreground" weight="bold" />
+                    <input
+                      ref={searchInputRef}
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder={locale === "vi" ? "Nhập từ khóa..." : "Type keyword..."}
+                      className="h-11 w-full tracking-tighter bg-transparent text-sm outline-none"
+                    />
+                    {query && (
+                      <button
+                        type="button"
+                        onClick={clearSearch}
+                        className="h-7 w-7 inline-flex tracking-tighter items-center justify-center rounded-md hover:bg-muted"
+                        aria-label={locale === "vi" ? "Xóa tìm kiếm" : "Clear search"}
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="max-h-[55vh] overflow-y-auto p-2">
+                    {isLoading && (
+                      <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
+                        {locale === "vi" ? "Đang tìm..." : "Searching..."}
+                      </p>
+                    )}
+
+                    {!isLoading && query.trim().length === 0 && (
+                      <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
+                        {locale === "vi" ? "Gợi ý nhanh: dự án, tuyển dụng, liên hệ..." : "Quick suggestions: projects, recruitment, contact..."}
+                      </p>
+                    )}
+
+                    {!isLoading && query.trim().length > 0 && query.trim().length < 2 && (
+                      <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
+                        {locale === "vi" ? "Nhập ít nhất 2 ký tự" : "Enter at least 2 characters"}
+                      </p>
+                    )}
+
+                    {!isLoading && query.trim().length >= 2 && results.length === 0 && (
+                      <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
+                        {locale === "vi" ? "Không tìm thấy kết quả phù hợp" : "No matching results found"}
+                      </p>
+                    )}
+
+                    {!isLoading && results.length > 0 && (
+                      <div className="space-y-1">
+                        {results.map((item) => (
+                          <Link
+                            key={item.id}
+                            href={item.href}
+                            onClick={() => {
+                              setSearchOpen(false);
+                              clearSearch();
+                            }}
+                            className="block rounded-md border border-transparent px-3 py-2.5 hover:bg-blue-50 hover:border-blue-400 transition-colors"
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <p className="text-sm font-semibold tracking-tighter text-foreground">{item.title}</p>
+                                <p className="text-xs tracking-tighter text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
+                              </div>
+                              <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-xs tracking-tighter text-muted-foreground">
+                                {getTypeLabel(item.type)}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
             <button
               className="lg:hidden w-10 h-10 flex items-center justify-center transition-colors"
               style={{ color: TEXT_DK }}
