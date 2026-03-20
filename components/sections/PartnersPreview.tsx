@@ -36,14 +36,14 @@ const PARTNERS = [
 
 export function PartnersPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastTsRef = useRef<number | null>(null);
+  const offsetRef = useRef(0);
+  const pauseRef = useRef(false);
   const [isPaused, setIsPaused] = useState(false);
-  const ITEMS_PER_PAGE = 4;
-  const totalPages = Math.ceil(PARTNERS.length / ITEMS_PER_PAGE);
-  const AUTO_SLIDE_MS = 3000;
-  const pages = Array.from({ length: totalPages }, (_, pageIndex) =>
-    PARTNERS.slice(pageIndex * ITEMS_PER_PAGE, (pageIndex + 1) * ITEMS_PER_PAGE)
-  );
+  const LOOP_PARTNERS = [...PARTNERS, ...PARTNERS];
+  const SPEED_PX_PER_SEC = 100;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -68,14 +68,54 @@ export function PartnersPreview() {
   }, []);
 
   useEffect(() => {
-    if (totalPages <= 1 || isPaused) return;
+    pauseRef.current = isPaused;
+  }, [isPaused]);
 
-    const timer = window.setInterval(() => {
-      setPage((prev) => (prev + 1) % totalPages);
-    }, AUTO_SLIDE_MS);
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
 
-    return () => window.clearInterval(timer);
-  }, [isPaused, totalPages]);
+    const tick = (ts: number) => {
+      if (lastTsRef.current === null) {
+        lastTsRef.current = ts;
+      }
+
+      const dt = (ts - (lastTsRef.current ?? ts)) / 1000;
+      lastTsRef.current = ts;
+
+      if (!pauseRef.current) {
+        const singleTrackWidth = track.scrollWidth / 2;
+        if (singleTrackWidth > 0) {
+          offsetRef.current += SPEED_PX_PER_SEC * dt;
+          if (offsetRef.current >= singleTrackWidth) {
+            offsetRef.current -= singleTrackWidth;
+          }
+          track.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
+        }
+      }
+
+      rafRef.current = window.requestAnimationFrame(tick);
+    };
+
+    const handleResize = () => {
+      const singleTrackWidth = track.scrollWidth / 2;
+      if (singleTrackWidth > 0) {
+        offsetRef.current = offsetRef.current % singleTrackWidth;
+      }
+    };
+
+    rafRef.current = window.requestAnimationFrame(tick);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+      rafRef.current = null;
+      lastTsRef.current = null;
+    };
+  }, []);
 
   return (
     <div
@@ -86,77 +126,39 @@ export function PartnersPreview() {
     >
       {/* Header bar */}
       <div
-        className="px-4 py-2.5 bg-cec-accent flex items-center gap-2"
+        className="px-4 py-2 bg-cec-accent flex items-center gap-2"
       >
-        <span className="text-white font-bold text-sm uppercase tracking-wide">
+        <span className="text-white font-bold text-base uppercase tracking-wide">
           Các Đối Tác Chiến Lược
         </span>
-        <div className="ml-auto flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => setPage((p) => (p - 1 + totalPages) % totalPages)}
-            aria-label="Xem đối tác trước"
-            className="h-7 w-7 flex items-center justify-center rounded-sm text-white border border-white/40"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            onClick={() => setPage((p) => (p + 1) % totalPages)}
-            aria-label="Xem đối tác tiếp theo"
-            className="h-7 w-7 flex items-center justify-center rounded-sm text-white border border-white/40"
-          >
-            ›
-          </button>
-        </div>
       </div>
 
-      {/* Partners slider */}
-      <div className="p-4 overflow-hidden">
-        <div
-          className="flex transition-transform duration-500 ease-in-out will-change-transform"
-          style={{ transform: `translateX(-${page * 100}%)` }}
-        >
-          {pages.map((partnersInPage, pageIndex) => {
-            const filledPage = [
-              ...partnersInPage,
-              ...Array.from({ length: ITEMS_PER_PAGE - partnersInPage.length }, () => null),
-            ];
-
-            return (
-              <div key={`page-${pageIndex}`} className="w-full shrink-0 grid grid-cols-4 gap-10">
-                {filledPage.map((partner, slotIndex) => {
-                  if (!partner) {
-                    return <div key={`empty-${pageIndex}-${slotIndex}`} aria-hidden className="invisible" />;
-                  }
-
-                  return (
-                    <div
-                      key={partner.name}
-                      className="partner-item flex flex-col items-center gap-2 group"
-                    >
-                      {/* Logo box */}
-                      <div className="w-full aspect-square bg-white flex items-center justify-center p-4 overflow-hidden transition-shadow duration-300">
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={partner.logo}
-                            alt={partner.name}
-                            fill
-                            sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 220px"
-                            className="object-contain"
-                          />
-                        </div>
-                      </div>
-                      {/* Partner name */}
-                      <p className="text-base text-center tracking-tighter leading-snug font-medium px-1">
-                        {partner.name}
-                      </p>
-                    </div>
-                  );
-                })}
+      {/* Partners conveyor */}
+      <div className="px-4 pb-4 overflow-hidden">
+        <div ref={trackRef} className="flex w-max gap-10 will-change-transform">
+          {LOOP_PARTNERS.map((partner, index) => (
+            <div
+              key={`${partner.name}-${index}`}
+              className="partner-item w-52 sm:w-56 md:w-60 lg:w-64 shrink-0 flex flex-col items-center gap-2 group"
+            >
+              {/* Logo box */}
+              <div className="w-full aspect-square bg-white flex items-center justify-center overflow-hidden transition-shadow duration-300">
+                <div className="relative w-full h-full">
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    fill
+                    sizes="(max-width: 640px) 208px, (max-width: 1024px) 240px, 256px"
+                    className="object-contain"
+                  />
+                </div>
               </div>
-            );
-          })}
+              {/* Partner name */}
+              <p className="text-base text-center tracking-tighter leading-snug font-medium px-1">
+                {partner.name}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
