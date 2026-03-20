@@ -37,8 +37,10 @@ const PARTNERS = [
 export function PartnersPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const ITEMS_PER_PAGE = 4;
   const totalPages = Math.ceil(PARTNERS.length / ITEMS_PER_PAGE);
+  const AUTO_SLIDE_MS = 3000;
   const pages = Array.from({ length: totalPages }, (_, pageIndex) =>
     PARTNERS.slice(pageIndex * ITEMS_PER_PAGE, (pageIndex + 1) * ITEMS_PER_PAGE)
   );
@@ -65,10 +67,22 @@ export function PartnersPreview() {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    if (totalPages <= 1 || isPaused) return;
+
+    const timer = window.setInterval(() => {
+      setPage((prev) => (prev + 1) % totalPages);
+    }, AUTO_SLIDE_MS);
+
+    return () => window.clearInterval(timer);
+  }, [isPaused, totalPages]);
+
   return (
     <div
       ref={sectionRef}
       className="border border-border bg-card flex flex-col overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       {/* Header bar */}
       <div
@@ -80,19 +94,17 @@ export function PartnersPreview() {
         <div className="ml-auto flex items-center gap-1.5">
           <button
             type="button"
-            onClick={() => setPage((p) => Math.max(p - 1, 0))}
-            disabled={page === 0}
+            onClick={() => setPage((p) => (p - 1 + totalPages) % totalPages)}
             aria-label="Xem đối tác trước"
-            className="h-7 w-7 flex items-center justify-center rounded-sm text-white border border-white/40 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="h-7 w-7 flex items-center justify-center rounded-sm text-white border border-white/40"
           >
             ‹
           </button>
           <button
             type="button"
-            onClick={() => setPage((p) => Math.min(p + 1, totalPages - 1))}
-            disabled={page >= totalPages - 1}
+            onClick={() => setPage((p) => (p + 1) % totalPages)}
             aria-label="Xem đối tác tiếp theo"
-            className="h-7 w-7 flex items-center justify-center rounded-sm text-white border border-white/40 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="h-7 w-7 flex items-center justify-center rounded-sm text-white border border-white/40"
           >
             ›
           </button>
@@ -112,7 +124,7 @@ export function PartnersPreview() {
             ];
 
             return (
-              <div key={`page-${pageIndex}`} className="w-full shrink-0 grid grid-cols-4 gap-4">
+              <div key={`page-${pageIndex}`} className="w-full shrink-0 grid grid-cols-4 gap-10">
                 {filledPage.map((partner, slotIndex) => {
                   if (!partner) {
                     return <div key={`empty-${pageIndex}-${slotIndex}`} aria-hidden className="invisible" />;

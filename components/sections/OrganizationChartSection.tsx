@@ -23,7 +23,7 @@ const CHART_NODES: NodeBox[] = [
   { id: "admin", level: 2, x: 35, y: 225, w: 225, h: 78, lines: ["PHÒNG HÀNH CHÍNH", "TỔNG HỢP"] },
   { id: "consult", level: 2, x: 338, y: 225, w: 230, h: 78, lines: ["PHÒNG TƯ VẤN", "THIẾT KẾ, GIÁM SÁT"] },
   { id: "survey", level: 2, x: 640, y: 225, w: 240, h: 78, lines: ["PHÒNG KHẢO SÁT", "ĐỊA HÌNH, ĐỊA CHẤT"] },
-  { id: "lab", level: 2, x: 945, y: 225, w: 235, h: 78, lines: ["PHÒNG TN CHUYÊN", "NGÀNH XÂY DỰNG"] },
+  { id: "lab", level: 2, x: 945, y: 225, w: 235, h: 78, lines: ["PHÒNG THÍ NGHIỆM", "CHUYÊN NGÀNH XÂY DỰNG"] },
 
   { id: "issue", level: 3, x: 35, y: 345, w: 225, h: 78, lines: ["PHÁT HÀNH, NHÂN BẢN", "BÀN GIAO HỒ SƠ"] },
 
