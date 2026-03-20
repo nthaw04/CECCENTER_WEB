@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { key: "services",  label_vi: "Lĩnh Vực",   label_en: "Services", href: "/services" },
   { key: "structure", label_vi: "Dự Án",      label_en: "Projects", href: "/structure" },
   { key: "team",      label_vi: "Nhân Lực",   label_en: "Team",     href: "/team" },
+  { key: "recruitment", label_vi: "Tuyển Dụng", label_en: "Recruitment", href: "/recruitment" },
   { key: "contact",   label_vi: "Liên Hệ",    label_en: "Contact",  href: "/contact" },
 ];
 
