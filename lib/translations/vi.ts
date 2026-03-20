@@ -172,7 +172,7 @@ const vi = {
     email_label: "Email",
     email: "ceccenter302@gmail.com",
     working_hours_label: "Giờ làm việc",
-    working_hours: "Thứ 2 - Thứ 7: 7:30 - 17:30",
+    working_hours: "Thứ 2 - Thứ 7: 08h00 - 17h00",
     send_message: "Gửi tin nhắn",
     name_placeholder: "Họ và tên",
     email_placeholder: "Email của bạn",

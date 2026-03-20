@@ -21,25 +21,25 @@ const PROJECTS = [
     image: "/images/du_an/vanh-dai-3.jpg",
     name_vi: "Xây dựng đường vành đai 3 đoạn qua huyện Củ Chi (Km52+580 – Km58+647)",
     name_en: "Ring Road 3 construction through Cu Chi District (Km52+580 – Km58+647)",
-    year: "",
+    year: "2023",
   },
   {
     image: "/images/du_an/An_phu.jpg",
     name_vi: "Xây dựng nút giao thông An Phú (HC1-02)",
     name_en: "An Phu Interchange Construction (HC1-02)",
-    year: "",
+    year: "2023",
   },
   {
     image: "/images/du_an/Benh_vien.jpg",
     name_vi: "Đầu tư xây dựng Hầm để xe - Bệnh viện Quân y 175/BQP",
     name_en: "Parking Basement Investment - Military Hospital 175/MOD",
-    year: "",
+    year: "2022",
   },
   {
     image: "/images/du_an/bien_hoa.jpg",
     name_vi: "Đường nối vào cao tốc Biên Hoà – Vũng Tàu (Từ QL56 đến nút giao Vũng Vằn) (Gói thầu 35)",
     name_en: "Connector to Bien Hoa - Vung Tau Expressway (From QL56 to Vung Van Interchange) (Package 35)",
-    year: "",
+    year: "2025",
   },
 ];
 
