@@ -28,6 +28,8 @@ export const metadata: Metadata = {
     "phòng thí nghiệm LAS-XD 449",
     "ISO/IEC 17025",
     "CEC Center",
+    "cec center",
+    "ceccenter",
     "giám sát chất lượng công trình",
     "thí nghiệm vật liệu xây dựng",
     "TP.HCM",
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
       "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình (CEC Center) – Phòng thí nghiệm LAS-XD 449, chứng nhận ISO/IEC 17025:2017. Dịch vụ tư vấn, kiểm định, thí nghiệm và giám sát chất lượng công trình tại TP.HCM.",
     images: [
       {
-        url: "/images/cec.svg",
+        url: "/images/cec-logo.svg",
         width: 1200,
         height: 630,
         alt: "CEC Center – Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
@@ -60,7 +62,7 @@ export const metadata: Metadata = {
     title: "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
     description:
       "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình (CEC Center) – Phòng thí nghiệm LAS-XD 449, chứng nhận ISO/IEC 17025:2017.",
-    images: ["/images/cec.svg"],
+    images: ["/images/cec-logo.svg"],
   },
   robots: {
     index: true,

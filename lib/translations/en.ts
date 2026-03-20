@@ -176,7 +176,7 @@ const en: Translations = {
     email_label: "Email",
     email: "ceccenter302@gmail.com",
     working_hours_label: "Working Hours",
-    working_hours: "Mon - Sat: 7:30 AM - 5:30 PM",
+    working_hours: "Mon - Sat: 08:00 AM - 05:30 PM",
     send_message: "Send Us a Message",
     name_placeholder: "Full Name",
     email_placeholder: "Your Email",

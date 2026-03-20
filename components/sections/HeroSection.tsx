@@ -7,6 +7,7 @@ export function HeroSection() {
         src="/images/vanh-dai-3.jpg"
         alt="Đường Vành Đai 3 – CEC Center"
         fill
+        sizes="100vw"
         priority
         className="object-cover object-center"
       />

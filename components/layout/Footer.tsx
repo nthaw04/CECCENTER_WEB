@@ -12,6 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import { Separator } from "@/components/ui/separator";
 import { useLanguage } from "@/context/LanguageContext";
+import { GoogleMap } from "@/components/layout/GoogleMap";
 
 const NAV_GROUPS = [
   {
@@ -61,6 +62,7 @@ export function Footer() {
                   src="/images/cec-logo.png"
                   alt="CEC Center Logo"
                   fill
+                  sizes="48px"
                   className="object-contain"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -68,17 +70,17 @@ export function Footer() {
                 />
               </div>
               <div>
-                <p className="font-black text-base text-foreground leading-tight">
+                <p className="font-semibold text-lg leading-tight">
                   CEC Center
                 </p>
-                <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
+                <p className="text-sm text-muted-foreground leading-tight mt-0.5">
                   LAS - XD 449
                 </p>
               </div>
             </Link>
 
             {/* Description */}
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm leading-relaxed">
               {t.footer.description}
             </p>
 
@@ -86,13 +88,13 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 shrink-0 mt-0.5" style={{ color: "#93CAF0" }} weight="fill" />
-                <span className="text-sm text-muted-foreground">{t.about.address}</span>
+                <span className="text-sm">{t.about.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 shrink-0" style={{ color: "#FE9D6F" }} weight="fill" />
                 <a
                   href={`tel:${t.about.phone.replace(/\s/g, "")}`}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm hover:text-foreground transition-colors"
                 >
                   {t.about.phone}
                 </a>
@@ -101,7 +103,7 @@ export function Footer() {
                 <Envelope className="h-4 w-4 shrink-0" style={{ color: "#93CAF0" }} weight="fill" />
                 <a
                   href={`mailto:${t.about.email}`}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm hover:text-foreground transition-colors"
                 >
                   {t.about.email}
                 </a>
@@ -144,7 +146,7 @@ export function Footer() {
                       <li key={i}>
                         <Link
                           href={link.href}
-                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                          className="text-sm hover:text-foreground transition-colors"
                         >
                           {label}
                         </Link>
@@ -162,16 +164,7 @@ export function Footer() {
               Vị Trí
             </h4>
             <div className="w-full h-52 lg:h-full min-h-44 overflow-hidden border border-border">
-              <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent("302 Gò Dưa, Phường Tam Bình, Thành phố Hồ Chí Minh")}&zoom=16&language=vi`}
-                width="100%"
-                height="100%"
-                style={{ border: 0, display: "block" }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="CEC Center Location"
-              />
+              <GoogleMap />
             </div>
           </div>
         </div>
@@ -179,7 +172,7 @@ export function Footer() {
         <Separator className="my-8" />
 
         {/* ── Bottom bar ────────────────────────────────── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
           <p>{t.footer.copyright}</p>
           <div className="flex items-center gap-4">
             <Link href="#" className="hover:text-foreground transition-colors">
