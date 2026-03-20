@@ -6,7 +6,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-10 pb-10">
         <ContactSection />
       </main>
       <Footer />
