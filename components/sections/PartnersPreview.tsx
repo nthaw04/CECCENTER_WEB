@@ -60,8 +60,8 @@ export function PartnersPreview() {
     >
       {/* Header bar */}
       <div
-        className="px-4 py-2.5 flex items-center gap-2"
-        style={{ backgroundColor: ORANGE }}
+        className="px-4 py-2.5 bg-cec-accent flex items-center gap-2"
+        
       >
         <span className="text-white font-bold text-sm uppercase tracking-wide">
           Các Đối Tác Chiến Lược
