@@ -4,7 +4,7 @@ import { sfUIDisplay } from "./fonts";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const BASE_URL = "https://cec-center.com.vn";
+const BASE_URL = "https://ceccenter.com.vn";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
