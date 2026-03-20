@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
@@ -87,7 +88,32 @@ function SheetContent({
 }: SheetContentProps) {
   const { open, onOpenChange } = useSheet();
 
-  if (!open) return null;
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onOpenChange(false);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, onOpenChange]);
+
+  if (!open || !mounted) return null;
 
   const sideClasses = {
     top: "inset-x-0 top-0 border-b",
@@ -96,17 +122,17 @@ function SheetContent({
     left: "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
   };
 
-  return (
+  return createPortal(
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-50 bg-black/80 animate-in fade-in-0"
+        className="fixed inset-0 z-80 bg-black/80 animate-in fade-in-0"
         onClick={() => onOpenChange(false)}
       />
       {/* Content */}
       <div
         className={cn(
-          "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out animate-in",
+          "fixed z-81 gap-4 bg-background p-6 shadow-lg transition ease-in-out animate-in",
           side === "right" && "slide-in-from-right",
           side === "left" && "slide-in-from-left",
           side === "top" && "slide-in-from-top",
@@ -125,7 +151,8 @@ function SheetContent({
           <span className="sr-only">Close</span>
         </button>
       </div>
-    </>
+    </>,
+    document.body
   );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
@@ -82,19 +83,44 @@ function DialogContent({
 }: React.ComponentProps<"div">) {
   const { open, onOpenChange } = useDialog();
 
-  if (!open) return null;
+  const [mounted, setMounted] = React.useState(false);
 
-  return (
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onOpenChange(false);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, onOpenChange]);
+
+  if (!open || !mounted) return null;
+
+  return createPortal(
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-50 bg-black/80 animate-in fade-in-0"
+        className="fixed inset-0 z-80 bg-black/80 animate-in fade-in-0"
         onClick={() => onOpenChange(false)}
       />
       {/* Content */}
       <div
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg duration-200 animate-in fade-in-0 zoom-in-95 slide-in-from-left-1/2 slide-in-from-top-1/2 sm:rounded-lg",
+          "fixed left-1/2 top-1/2 z-81 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg duration-200 animate-in fade-in-0 zoom-in-95 slide-in-from-left-1/2 slide-in-from-top-1/2 sm:rounded-lg",
           className
         )}
         {...props}
@@ -108,7 +134,8 @@ function DialogContent({
           <span className="sr-only">Close</span>
         </button>
       </div>
-    </>
+    </>,
+    document.body
   );
 }
 
