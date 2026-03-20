@@ -4,10 +4,18 @@ import { sfUIDisplay } from "./fonts";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const BASE_URL = "https://cec-center.com";
+const BASE_URL = "https://cec-center.com.vn";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  icons: {
+    icon: [
+      { url: "/images/cec-logo.png", type: "image/png", sizes: "32x32" },
+      { url: "/images/cec-logo.png", type: "image/png", sizes: "192x192" },
+    ],
+    shortcut: "/images/cec-logo.png",
+    apple: [{ url: "/images/cec-logo.png", sizes: "180x180", type: "image/png" }],
+  },
   title: {
     default: "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
     template: "%s | CEC Center",
