@@ -105,6 +105,22 @@ export const searchData: SearchItem[] = [
       "map",
     ],
   },
+  {
+    id: "page-lab-capacity-disclosure",
+    title: "Công bố NLHĐ thí nghiệm | Lab Capacity Disclosure",
+    description:
+      "Hồ sơ công bố năng lực hoạt động thí nghiệm và danh mục tài liệu liên quan.",
+    href: "/cong-bo-nlhd-thi-nghiem",
+    type: "page",
+    keywords: [
+      "cong bo",
+      "nlhd thi nghiem",
+      "ho so cong bo",
+      "nang luc hoat dong thi nghiem",
+      "iso 17025",
+      "lab capacity disclosure",
+    ],
+  },
 
   {
     id: "about-center",

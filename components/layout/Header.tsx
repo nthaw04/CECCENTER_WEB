@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ListIcon, XIcon, MagnifyingGlassIcon, MapPinIcon } from "@phosphor-icons/react";
+import {
+  ListIcon,
+  XIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
+} from "@phosphor-icons/react";
 import { X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useLanguage } from "@/context/LanguageContext";
@@ -12,28 +17,58 @@ import useSearch from "@/hooks/useSearch";
 import { cn } from "@/lib/utils";
 
 /* Brand palette */
-const BLUE_DK = "#4A90C4";   /* top bar + active tab          */
-const TEXT_DK = "#000000";  
+const BLUE_DK = "#4A90C4"; /* top bar + active tab          */
+const TEXT_DK = "#000000";
 
 const NAV_ITEMS = [
-  { key: "home",      label_vi: "Trang Chủ",  label_en: "Home",     href: "/" },
-  { key: "services",  label_vi: "Lĩnh Vực",   label_en: "Services", href: "/services" },
-  { key: "structure", label_vi: "Dự Án",      label_en: "Projects", href: "/structure" },
-  { key: "team",      label_vi: "Nhân Lực",   label_en: "Team",     href: "/team" },
-  { key: "recruitment", label_vi: "Tuyển Dụng", label_en: "Recruitment", href: "/recruitment" },
-  { key: "contact",   label_vi: "Liên Hệ",    label_en: "Contact",  href: "/contact" },
+  { key: "home", label_vi: "TRANG CHỦ", label_en: "Home", href: "/" },
+  {
+    key: "services",
+    label_vi: "LĨNH VỰC HOẠT ĐỘNG",
+    label_en: "Services",
+    href: "/services",
+  },
+  {
+    key: "structure",
+    label_vi: "DỰ ÁN",
+    label_en: "Projects",
+    href: "/structure",
+  },
+  {
+    key: "lab-capacity-disclosure",
+    label_vi: "CÔNG BỐ NLHĐ THÍ NGHIỆM",
+    label_en: "Lab Capacity Disclosure",
+    href: "/cong-bo-nlhd-thi-nghiem",
+  },
+  { key: "team", label_vi: "NHÂN LỰC", label_en: "Team", href: "/team" },
+  {
+    key: "recruitment",
+    label_vi: "TUYỂN DỤNG",
+    label_en: "Recruitment",
+    href: "/recruitment",
+  },
+  {
+    key: "contact",
+    label_vi: "LIÊN HỆ",
+    label_en: "Contact",
+    href: "/contact",
+  },
 ];
 
 export function Header() {
   const { locale } = useLanguage();
-  const pathname  = usePathname();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
-  const [indicatorStyle, setIndicatorStyle] = useState({ x: 0, width: 0, opacity: 0 });
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    x: 0,
+    width: 0,
+    opacity: 0,
+  });
   const { query, setQuery, results, isLoading, clearSearch } = useSearch();
 
   const isActive = (href: string) => {
@@ -135,7 +170,6 @@ export function Header() {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-50 shadow-sm bg-background border-b border-border">
-
       {/* ── Top bar ── */}
       <div style={{ backgroundColor: BLUE_DK }}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9 gap-2">
@@ -159,9 +193,12 @@ export function Header() {
       {/* ── Main bar ── */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-stretch h-14 lg:h-16">
-
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3.5 pr-6 shrink-0" aria-label="CEC Center Home">
+          <Link
+            href="/"
+            className="flex items-center gap-3.5 pr-6 shrink-0"
+            aria-label="CEC Center Home"
+          >
             <div className="relative w-11 h-11 lg:w-12 lg:h-12 shrink-0 p-1">
               <Image
                 src="/images/cec-logo.png"
@@ -169,18 +206,33 @@ export function Header() {
                 fill
                 sizes="(max-width: 1024px) 44px, 48px"
                 className="object-contain"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
               />
             </div>
             <div className="hidden sm:block leading-tight">
-              <p className="font-bold text-base lg:text-lg tracking-tighter" style={{ color: TEXT_DK }}>CEC Center</p>
-              <p className="text-xs lg:text-sm" style={{ color: TEXT_DK, opacity: 0.6 }}>LAS - XD 449</p>
+              <p
+                className="font-bold text-base lg:text-lg tracking-tighter"
+                style={{ color: TEXT_DK }}
+              >
+                CEC Center
+              </p>
+              <p
+                className="text-xs lg:text-sm"
+                style={{ color: TEXT_DK, opacity: 0.6 }}
+              >
+                LAS - XD 449
+              </p>
             </div>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-stretch flex-1 justify-center">
-            <div ref={navRef} className="relative flex h-full items-center gap-8 xl:gap-9 pb-1">
+            <div
+              ref={navRef}
+              className="relative flex h-full items-center gap-6 xl:gap-7 pb-1"
+            >
               {NAV_ITEMS.map(({ key, label_vi, label_en, href }) => {
                 const active = isActive(href);
                 return (
@@ -226,12 +278,17 @@ export function Header() {
               {searchOpen && (
                 <div className="absolute right-0 top-[calc(100%+10px)] z-70 w-[92vw] max-w-md overflow-hidden rounded-xl border border-border bg-background shadow-xl">
                   <div className="flex items-center gap-2 border-b border-border px-3">
-                    <MagnifyingGlassIcon className="h-5 w-5 text-muted-foreground" weight="bold" />
+                    <MagnifyingGlassIcon
+                      className="h-5 w-5 text-muted-foreground"
+                      weight="bold"
+                    />
                     <input
                       ref={searchInputRef}
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-                      placeholder={locale === "vi" ? "Nhập từ khóa..." : "Type keyword..."}
+                      placeholder={
+                        locale === "vi" ? "Nhập từ khóa..." : "Type keyword..."
+                      }
                       className="h-11 w-full tracking-tighter bg-transparent text-sm outline-none"
                     />
                     {query && (
@@ -239,7 +296,9 @@ export function Header() {
                         type="button"
                         onClick={clearSearch}
                         className="h-7 w-7 inline-flex tracking-tighter items-center justify-center rounded-md hover:bg-muted"
-                        aria-label={locale === "vi" ? "Xóa tìm kiếm" : "Clear search"}
+                        aria-label={
+                          locale === "vi" ? "Xóa tìm kiếm" : "Clear search"
+                        }
                       >
                         <X className="h-4 w-4" />
                       </button>
@@ -255,21 +314,31 @@ export function Header() {
 
                     {!isLoading && query.trim().length === 0 && (
                       <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
-                        {locale === "vi" ? "Gợi ý nhanh: dự án, tuyển dụng, liên hệ..." : "Quick suggestions: projects, recruitment, contact..."}
+                        {locale === "vi"
+                          ? "Gợi ý nhanh: dự án, tuyển dụng, liên hệ..."
+                          : "Quick suggestions: projects, recruitment, contact..."}
                       </p>
                     )}
 
-                    {!isLoading && query.trim().length > 0 && query.trim().length < 2 && (
-                      <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
-                        {locale === "vi" ? "Nhập ít nhất 2 ký tự" : "Enter at least 2 characters"}
-                      </p>
-                    )}
+                    {!isLoading &&
+                      query.trim().length > 0 &&
+                      query.trim().length < 2 && (
+                        <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
+                          {locale === "vi"
+                            ? "Nhập ít nhất 2 ký tự"
+                            : "Enter at least 2 characters"}
+                        </p>
+                      )}
 
-                    {!isLoading && query.trim().length >= 2 && results.length === 0 && (
-                      <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
-                        {locale === "vi" ? "Không tìm thấy kết quả phù hợp" : "No matching results found"}
-                      </p>
-                    )}
+                    {!isLoading &&
+                      query.trim().length >= 2 &&
+                      results.length === 0 && (
+                        <p className="px-2 py-2 text-sm tracking-tighter text-muted-foreground">
+                          {locale === "vi"
+                            ? "Không tìm thấy kết quả phù hợp"
+                            : "No matching results found"}
+                        </p>
+                      )}
 
                     {!isLoading && results.length > 0 && (
                       <div className="space-y-1">
@@ -285,8 +354,12 @@ export function Header() {
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div>
-                                <p className="text-sm font-semibold tracking-tighter text-foreground">{item.title}</p>
-                                <p className="text-xs tracking-tighter text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
+                                <p className="text-sm font-semibold tracking-tighter text-foreground">
+                                  {item.title}
+                                </p>
+                                <p className="text-xs tracking-tighter text-muted-foreground mt-1 line-clamp-2">
+                                  {item.description}
+                                </p>
                               </div>
                               <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-xs tracking-tighter text-muted-foreground">
                                 {getTypeLabel(item.type)}
@@ -303,21 +376,27 @@ export function Header() {
             <button
               className="lg:hidden w-10 h-10 flex items-center justify-center transition-colors"
               style={{ color: TEXT_DK }}
-              onClick={() => setMenuOpen(p => !p)}
+              onClick={() => setMenuOpen((p) => !p)}
               aria-label="Toggle menu"
             >
-              {menuOpen ? <XIcon className="h-5 w-5" weight="bold" /> : <ListIcon className="h-5 w-5" weight="bold" />}
+              {menuOpen ? (
+                <XIcon className="h-5 w-5" weight="bold" />
+              ) : (
+                <ListIcon className="h-5 w-5" weight="bold" />
+              )}
             </button>
           </div>
-
         </div>
       </div>
 
       {/* ── Mobile menu ── */}
-      <div className={cn(
-        "lg:hidden overflow-hidden transition-all duration-300",
-        menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-      )} style={{ backgroundColor: BLUE_DK }}>
+      <div
+        className={cn(
+          "lg:hidden overflow-hidden transition-all duration-300",
+          menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0",
+        )}
+        style={{ backgroundColor: BLUE_DK }}
+      >
         <nav className="px-4 py-2 space-y-0.5">
           {NAV_ITEMS.map(({ key, label_vi, label_en, href }) => (
             <Link
