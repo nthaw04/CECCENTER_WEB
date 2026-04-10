@@ -6,7 +6,7 @@ import Image from "next/image";
 const disclosureItems = [
   {
     title: "ĐƠN CÔNG BỐ NĂNG LỰC HOẠT ĐỘNG THÍ NGHIỆM",
-    href: "https://drive.google.com/file/d/1R-UL3amf7hM0ioy241_O2iQjqOEe1_oy/view?usp=sharing",
+    href: "https://drive.google.com/file/d/1XSOslwmNONyNc_7vcuc46kYWJC5jm91h/view?usp=drive_link",
   },
   {
     title: "PHÁP LÝ TRUNG TÂM",
@@ -30,7 +30,7 @@ const disclosureItems = [
   },
   {
     title: "DANH MỤC MÁY MÓC THIẾT BỊ. HỢP ĐỒNG MUA BÁN.",
-    href: "https://drive.google.com/file/d/1e5sALlmeHObp2ojFwPYcuexILEte3Zc3/view?usp=drive_link",
+    href: "https://drive.google.com/file/d/16CO7XE4ZE4tNVHRVX7sdIu-VV7_Iqbux/view?usp=drive_link",
   },
   {
     title: "BẢN SAO CHỨNG NHẬN KIỂM ĐỊNH/HIỆU CHUẨN THIẾT BỊ",
