@@ -18,29 +18,144 @@ type NodeBox = {
 };
 
 const CHART_NODES: NodeBox[] = [
-  { id: "board", level: 1, x: 420, y: 85, w: 290, h: 78, lines: ["BAN GIÁM ĐỐC", "TRUNG TÂM"] },
+  {
+    id: "board",
+    level: 1,
+    x: 420,
+    y: 85,
+    w: 290,
+    h: 78,
+    lines: ["BAN GIÁM ĐỐC", "TRUNG TÂM"],
+  },
 
-  { id: "admin", level: 2, x: 35, y: 225, w: 225, h: 78, lines: ["PHÒNG HÀNH CHÍNH", "TỔNG HỢP"] },
-  { id: "consult", level: 2, x: 338, y: 225, w: 230, h: 78, lines: ["PHÒNG TƯ VẤN", "THIẾT KẾ, GIÁM SÁT"] },
-  { id: "survey", level: 2, x: 640, y: 225, w: 240, h: 78, lines: ["PHÒNG KHẢO SÁT", "ĐỊA HÌNH, ĐỊA CHẤT"] },
-  { id: "lab", level: 2, x: 945, y: 225, w: 235, h: 78, lines: ["PHÒNG THÍ NGHIỆM", "CHUYÊN NGÀNH XÂY DỰNG"] },
+  {
+    id: "admin",
+    level: 2,
+    x: 35,
+    y: 225,
+    w: 225,
+    h: 78,
+    lines: ["PHÒNG HÀNH CHÍNH", "TỔNG HỢP"],
+  },
+  {
+    id: "consult",
+    level: 2,
+    x: 338,
+    y: 225,
+    w: 230,
+    h: 78,
+    lines: ["PHÒNG TƯ VẤN", "THIẾT KẾ, GIÁM SÁT"],
+  },
+  {
+    id: "survey",
+    level: 2,
+    x: 640,
+    y: 225,
+    w: 240,
+    h: 78,
+    lines: ["PHÒNG KHẢO SÁT", "ĐỊA HÌNH, ĐỊA CHẤT"],
+  },
+  {
+    id: "lab",
+    level: 2,
+    x: 945,
+    y: 225,
+    w: 235,
+    h: 78,
+    lines: ["PHÒNG THÍ NGHIỆM", "CHUYÊN NGÀNH XÂY DỰNG"],
+  },
 
-  { id: "issue", level: 3, x: 35, y: 345, w: 225, h: 78, lines: ["PHÁT HÀNH, NHÂN BẢN", "BÀN GIAO HỒ SƠ"] },
+  {
+    id: "issue",
+    level: 3,
+    x: 35,
+    y: 345,
+    w: 225,
+    h: 78,
+    lines: ["PHÁT HÀNH, NHÂN BẢN", "BÀN GIAO HỒ SƠ"],
+  },
 
-  { id: "site1", level: 3, x: 338, y: 345, w: 230, h: 78, lines: ["KHẢO SÁT, GIÁM SÁT", "HIỆN TRƯỜNG"] },
-  { id: "summary1", level: 4, x: 338, y: 466, w: 230, h: 78, lines: ["TỔNG HỢP,", "XỬ LÝ KẾT QUẢ"] },
-  { id: "print", level: 5, x: 338, y: 586, w: 230, h: 78, lines: ["IN ẤN, TRÌNH DUYỆT", "XEM XÉT"] },
+  {
+    id: "site1",
+    level: 3,
+    x: 338,
+    y: 345,
+    w: 230,
+    h: 78,
+    lines: ["KHẢO SÁT, GIÁM SÁT", "HIỆN TRƯỜNG"],
+  },
+  {
+    id: "summary1",
+    level: 4,
+    x: 338,
+    y: 466,
+    w: 230,
+    h: 78,
+    lines: ["TỔNG HỢP,", "XỬ LÝ KẾT QUẢ"],
+  },
+  {
+    id: "print",
+    level: 5,
+    x: 338,
+    y: 586,
+    w: 230,
+    h: 78,
+    lines: ["IN ẤN, TRÌNH DUYỆT", "XEM XÉT"],
+  },
 
-  { id: "site2", level: 3, x: 640, y: 345, w: 240, h: 78, lines: ["KHẢO SÁT, THÍ NGHIỆM", "HIỆN TRƯỜNG"] },
+  {
+    id: "site2",
+    level: 3,
+    x: 640,
+    y: 345,
+    w: 240,
+    h: 78,
+    lines: ["KHẢO SÁT, THÍ NGHIỆM", "HIỆN TRƯỜNG"],
+  },
 
-  { id: "fieldLab", level: 3, x: 900, y: 345, w: 160, h: 78, lines: ["THÍ NGHIỆM", "HIỆN TRƯỜNG"] },
-  { id: "station", level: 3, x: 1080, y: 345, w: 165, h: 78, lines: ["TRẠM", "THÍ NGHIỆM", "HIỆN TRƯỜNG"] },
+  {
+    id: "fieldLab",
+    level: 3,
+    x: 900,
+    y: 345,
+    w: 160,
+    h: 78,
+    lines: ["THÍ NGHIỆM", "HIỆN TRƯỜNG"],
+  },
+  {
+    id: "station",
+    level: 3,
+    x: 1080,
+    y: 345,
+    w: 165,
+    h: 78,
+    lines: ["TRẠM", "THÍ NGHIỆM", "HIỆN TRƯỜNG"],
+  },
 
-  { id: "indoor", level: 4, x: 795, y: 466, w: 240, h: 78, lines: ["THÍ NGHIỆM", "TRONG PHÒNG"] },
-  { id: "summary2", level: 5, x: 795, y: 586, w: 240, h: 78, lines: ["TỔNG HỢP,", "XỬ LÝ KẾT QUẢ"] },
+  {
+    id: "indoor",
+    level: 4,
+    x: 795,
+    y: 466,
+    w: 240,
+    h: 78,
+    lines: ["THÍ NGHIỆM", "TRONG PHÒNG"],
+  },
+  {
+    id: "summary2",
+    level: 5,
+    x: 795,
+    y: 586,
+    w: 240,
+    h: 78,
+    lines: ["TỔNG HỢP,", "XỬ LÝ KẾT QUẢ"],
+  },
 ];
 
-const LEVEL_COLORS: Record<number, { fill: string; stroke: string; text: string }> = {
+const LEVEL_COLORS: Record<
+  number,
+  { fill: string; stroke: string; text: string }
+> = {
   1: { fill: "#fff2e8", stroke: "#ea580c", text: "#7c2d12" },
   2: { fill: "#ecf4ff", stroke: "#2563eb", text: "#1e3a8a" },
   3: { fill: "#edfdf3", stroke: "#16a34a", text: "#14532d" },
@@ -201,12 +316,18 @@ export function OrganizationChartSection() {
           ease: "power2.out",
           stagger: 0.035,
         },
-        0
+        0,
       ).fromTo(
         nodes,
         { opacity: 0, scale: 0.96, transformOrigin: "center center" },
-        { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out", stagger: 0.055 },
-        0.2
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.055,
+        },
+        0.2,
       );
     }, el);
 
@@ -214,9 +335,17 @@ export function OrganizationChartSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="border border-border bg-card overflow-hidden">
-      <div className="px-3 sm:px-4 py-2.5 flex items-center" style={{ backgroundColor: "#FE9D6F" }}>
-        <span className="text-white font-bold text-xs sm:text-sm uppercase tracking-wide">Sơ Đồ Tổ Chức Của Trung Tâm</span>
+    <section
+      ref={sectionRef}
+      className="border border-border bg-card overflow-hidden"
+    >
+      <div
+        className="px-3 sm:px-4 py-2.5 flex items-center"
+        style={{ backgroundColor: "#19181E" }}
+      >
+        <span className="text-white font-bold text-xs sm:text-sm uppercase tracking-wide">
+          Sơ Đồ Tổ Chức Của Trung Tâm
+        </span>
       </div>
 
       <div className="overflow-x-hidden md:overflow-x-auto p-1 md:p-2 bg-white [scrollbar-width:thin]">
@@ -227,21 +356,23 @@ export function OrganizationChartSection() {
             role="img"
             aria-label="Sơ đồ tổ chức của trung tâm"
           >
-          <defs>
-            <marker
-              id="chart-arrow"
-              markerWidth="8"
-              markerHeight="8"
-              refX="5.2"
-              refY="2.6"
-              orient="auto"
-              markerUnits="strokeWidth"
-            >
-              <path d="M0,0 L0,5.2 L5.4,2.6 z" fill="#1f2937" />
-            </marker>
-          </defs>
+            <defs>
+              <marker
+                id="chart-arrow"
+                markerWidth="8"
+                markerHeight="8"
+                refX="5.2"
+                refY="2.6"
+                orient="auto"
+                markerUnits="strokeWidth"
+              >
+                <path d="M0,0 L0,5.2 L5.4,2.6 z" fill="#1f2937" />
+              </marker>
+            </defs>
 
-            <g transform={`translate(${chartOffsetX} ${chartOffsetY}) scale(${chartScale})`}>
+            <g
+              transform={`translate(${chartOffsetX} ${chartOffsetY}) scale(${chartScale})`}
+            >
               {CONNECTORS.filter((d) => d !== RETURN_CONNECTOR).map((d, i) => (
                 <path
                   key={`connector-${i}`}

@@ -17,8 +17,9 @@ import useSearch from "@/hooks/useSearch";
 import { cn } from "@/lib/utils";
 
 /* Brand palette */
-const BLUE_DK = "#4A90C4"; /* top bar + active tab          */
+const BLUE_DK = "#F6B254"; /* top bar + active tab          */
 const TEXT_DK = "#000000";
+const LOGO_SRC = "/images/cec-logo.png";
 
 const NAV_ITEMS = [
   { key: "home", label_vi: "TRANG CHỦ", label_en: "Home", href: "/" },
@@ -172,7 +173,7 @@ export function Header() {
     <header className="sticky top-0 left-0 right-0 z-50 shadow-sm bg-background border-b border-border">
       {/* ── Top bar ── */}
       <div style={{ backgroundColor: BLUE_DK }}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9 gap-2">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-7 gap-2">
           {/* Address */}
           <a
             href="https://maps.google.com/?q=302%20%C4%90.%20G%C3%B2%20D%C6%B0a%2C%20Ph%C6%B0%E1%BB%9Dng%20Tam%20B%C3%ACnh%2C%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh"
@@ -192,19 +193,19 @@ export function Header() {
 
       {/* ── Main bar ── */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-stretch h-14 lg:h-16">
+        <div className="flex items-stretch h-10 lg:h-12">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3.5 pr-6 shrink-0"
+            className="flex items-center gap-2 pr-3 shrink-0"
             aria-label="CEC Center Home"
           >
-            <div className="relative w-11 h-11 lg:w-12 lg:h-12 shrink-0 p-1">
+            <div className="relative w-14 h-8 lg:w-16 lg:h-9 shrink-0">
               <Image
-                src="/images/cec-logo.png"
+                src={LOGO_SRC}
                 alt="CEC"
                 fill
-                sizes="(max-width: 1024px) 44px, 48px"
+                sizes="(max-width: 1024px) 56px, 64px"
                 className="object-contain"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -213,13 +214,13 @@ export function Header() {
             </div>
             <div className="hidden sm:block leading-tight">
               <p
-                className="font-bold text-base lg:text-lg tracking-tighter"
+                className="font-bold text-sm lg:text-[15px] tracking-tighter"
                 style={{ color: TEXT_DK }}
               >
                 CEC Center
               </p>
               <p
-                className="text-xs lg:text-sm"
+                className="text-[11px] lg:text-xs"
                 style={{ color: TEXT_DK, opacity: 0.6 }}
               >
                 LAS - XD 449
@@ -231,7 +232,7 @@ export function Header() {
           <nav className="hidden lg:flex items-stretch flex-1 justify-center">
             <div
               ref={navRef}
-              className="relative flex h-full items-center gap-6 xl:gap-7 pb-1"
+              className="relative flex h-full items-center gap-5 xl:gap-6 pb-0.5"
             >
               {NAV_ITEMS.map(({ key, label_vi, label_en, href }) => {
                 const active = isActive(href);
@@ -242,7 +243,7 @@ export function Header() {
                     ref={(el) => {
                       linkRefs.current[key] = el;
                     }}
-                    className="flex h-full items-center px-1 xl:px-1.5 text-base font-medium tracking-tighter whitespace-nowrap transition-colors"
+                    className="flex h-full items-center px-1 text-sm xl:text-sm font-medium tracking-tighter whitespace-nowrap transition-colors"
                     style={{ color: active ? BLUE_DK : TEXT_DK }}
                   >
                     {locale === "vi" ? label_vi : label_en}
@@ -251,7 +252,7 @@ export function Header() {
               })}
 
               <span
-                className="pointer-events-none absolute bottom-1 h-0.5 rounded-full transition-all duration-300 ease-out"
+                className="pointer-events-none absolute -bottom-0.5 h-0.5 rounded-full transition-all duration-300 ease-out"
                 style={{
                   transform: `translateX(${indicatorStyle.x}px)`,
                   width: `${indicatorStyle.width}px`,
@@ -268,18 +269,18 @@ export function Header() {
               <button
                 type="button"
                 aria-label="Search"
-                className="w-10 h-10 flex items-center justify-center transition-colors"
+                className="w-8 h-8 flex items-center justify-center transition-colors"
                 style={{ borderColor: TEXT_DK + "50", color: TEXT_DK }}
                 onClick={() => setSearchOpen((prev) => !prev)}
               >
-                <MagnifyingGlassIcon className="h-6 w-6" weight="regular" />
+                <MagnifyingGlassIcon className="h-5 w-5" weight="regular" />
               </button>
 
               {searchOpen && (
-                <div className="absolute right-0 top-[calc(100%+10px)] z-70 w-[92vw] max-w-md overflow-hidden rounded-xl border border-border bg-background shadow-xl">
+                <div className="absolute right-0 top-[calc(100%+8px)] z-70 w-[92vw] max-w-md overflow-hidden rounded-xl border border-border bg-background shadow-xl">
                   <div className="flex items-center gap-2 border-b border-border px-3">
                     <MagnifyingGlassIcon
-                      className="h-5 w-5 text-muted-foreground"
+                      className="h-4 w-4 text-muted-foreground"
                       weight="bold"
                     />
                     <input
@@ -289,7 +290,7 @@ export function Header() {
                       placeholder={
                         locale === "vi" ? "Nhập từ khóa..." : "Type keyword..."
                       }
-                      className="h-11 w-full tracking-tighter bg-transparent text-sm outline-none"
+                      className="h-10 w-full tracking-tighter bg-transparent text-sm outline-none"
                     />
                     {query && (
                       <button
@@ -374,15 +375,15 @@ export function Header() {
               )}
             </div>
             <button
-              className="lg:hidden w-10 h-10 flex items-center justify-center transition-colors"
+              className="lg:hidden w-8 h-8 flex items-center justify-center transition-colors"
               style={{ color: TEXT_DK }}
               onClick={() => setMenuOpen((p) => !p)}
               aria-label="Toggle menu"
             >
               {menuOpen ? (
-                <XIcon className="h-5 w-5" weight="bold" />
+                <XIcon className="h-4 w-4" weight="bold" />
               ) : (
-                <ListIcon className="h-5 w-5" weight="bold" />
+                <ListIcon className="h-4 w-4" weight="bold" />
               )}
             </button>
           </div>
@@ -397,13 +398,13 @@ export function Header() {
         )}
         style={{ backgroundColor: BLUE_DK }}
       >
-        <nav className="px-4 py-2 space-y-0.5">
+        <nav className="px-4 py-1.5 space-y-0.5">
           {NAV_ITEMS.map(({ key, label_vi, label_en, href }) => (
             <Link
               key={key}
               href={href}
               onClick={() => setMenuOpen(false)}
-              className="block px-3 py-2.5 text-sm font-bold transition-colors"
+              className="block px-3 py-2 text-sm font-bold transition-colors"
               style={{
                 color: isActive(href) ? "white" : "rgba(255,255,255,0.8)",
                 textDecoration: isActive(href) ? "underline" : "none",

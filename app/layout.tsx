@@ -14,10 +14,13 @@ export const metadata: Metadata = {
       { url: "/images/cec-logo.png", type: "image/png", sizes: "192x192" },
     ],
     shortcut: "/images/cec-logo.png",
-    apple: [{ url: "/images/cec-logo.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/images/cec-logo.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   title: {
-    default: "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
+    default:
+      "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
     template: "%s | CEC Center",
   },
   description:
@@ -45,7 +48,8 @@ export const metadata: Metadata = {
     locale: "vi_VN",
     url: BASE_URL,
     siteName: "CEC Center",
-    title: "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
+    title:
+      "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
     description:
       "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình (CEC Center) – Phòng thí nghiệm LAS-XD 449, chứng nhận ISO/IEC 17025:2017. Dịch vụ tư vấn, kiểm định, thí nghiệm và giám sát chất lượng công trình tại TP.HCM.",
     images: [
@@ -59,7 +63,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
+    title:
+      "CEC Center – LAS-XD 449 | Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình",
     description:
       "Trung Tâm Tư Vấn Kiểm Định Kỹ Thuật Công Trình (CEC Center) – Phòng thí nghiệm LAS-XD 449, chứng nhận ISO/IEC 17025:2017.",
     images: ["/images/cec-logo.svg"],
@@ -89,7 +94,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={`${sfUIDisplay.variable} antialiased`}>
+      <body
+        suppressHydrationWarning
+        className={`${sfUIDisplay.variable} antialiased`}
+      >
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>

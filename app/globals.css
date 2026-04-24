@@ -50,8 +50,8 @@
 
 :root {
   --radius: 0.625rem;
-  --cec-accent: #93CAF0;
-  --cec-accent-2: #FE9D6F;
+  --cec-accent: #F6B254;
+  --cec-accent-2: #19181E;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -86,8 +86,8 @@
 }
 
 .dark {
-  --cec-accent: #93CAF0;
-  --cec-accent-2: #FE9D6F;
+  --cec-accent: #F6B254;
+  --cec-accent-2: #19181E;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

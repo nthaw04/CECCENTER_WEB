@@ -19,8 +19,10 @@ const PROJECTS = [
   },
   {
     image: "/images/du_an/vanh-dai-3.jpg",
-    name_vi: "Xây dựng đường vành đai 3 đoạn qua huyện Củ Chi (Km52+580 – Km58+647)",
-    name_en: "Ring Road 3 construction through Cu Chi District (Km52+580 – Km58+647)",
+    name_vi:
+      "Xây dựng đường vành đai 3 đoạn qua huyện Củ Chi (Km52+580 – Km58+647)",
+    name_en:
+      "Ring Road 3 construction through Cu Chi District (Km52+580 – Km58+647)",
     year: "2023",
   },
   {
@@ -37,8 +39,10 @@ const PROJECTS = [
   },
   {
     image: "/images/du_an/bien_hoa.jpg",
-    name_vi: "Đường nối vào cao tốc Biên Hoà – Vũng Tàu (Từ QL56 đến nút giao Vũng Vằn) (Gói thầu 35)",
-    name_en: "Connector to Bien Hoa - Vung Tau Expressway (From QL56 to Vung Van Interchange) (Package 35)",
+    name_vi:
+      "Đường nối vào cao tốc Biên Hoà – Vũng Tàu (Từ QL56 đến nút giao Vũng Vằn) (Gói thầu 35)",
+    name_en:
+      "Connector to Bien Hoa - Vung Tau Expressway (From QL56 to Vung Van Interchange) (Package 35)",
     year: "2025",
   },
 ];
@@ -56,7 +60,10 @@ export function ProjectsPreview() {
   const windows = useMemo(() => {
     if (PROJECTS.length <= VISIBLE_COUNT) return [PROJECTS];
     return PROJECTS.map((_, start) =>
-      Array.from({ length: VISIBLE_COUNT }, (_, idx) => PROJECTS[(start + idx) % PROJECTS.length])
+      Array.from(
+        { length: VISIBLE_COUNT },
+        (_, idx) => PROJECTS[(start + idx) % PROJECTS.length],
+      ),
     );
   }, []);
 
@@ -75,9 +82,17 @@ export function ProjectsPreview() {
         el.querySelectorAll(".gsap-item"),
         { opacity: 0, y: 20 },
         {
-          opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.08,
-          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
-        }
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power3.out",
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        },
       );
     }, el);
     return () => ctx.revert();
@@ -114,7 +129,10 @@ export function ProjectsPreview() {
   const trackWidthPercent = renderedWindows.length * 100;
   const windowWidthPercent = 100 / renderedWindows.length;
 
-  const renderProjectCard = (project: (typeof PROJECTS)[number], key: string) => (
+  const renderProjectCard = (
+    project: (typeof PROJECTS)[number],
+    key: string,
+  ) => (
     <div key={key} className="gsap-item group cursor-default">
       <div className="relative w-full aspect-video overflow-hidden">
         <Image
@@ -127,7 +145,10 @@ export function ProjectsPreview() {
         />
       </div>
       <div className="px-4 py-3 space-y-1">
-        <p className="text-xs font-bold uppercase tracking-wider min-h-4" style={{ color: "#FE9D6F" }}>
+        <p
+          className="text-xs font-bold uppercase tracking-wider min-h-4"
+          style={{ color: "#FE9D6F" }}
+        >
           {project.year}
         </p>
         <p className="text-base font-semibold text-foreground leading-snug tracking-tight min-h-14">
@@ -138,9 +159,15 @@ export function ProjectsPreview() {
   );
 
   return (
-    <div ref={ref} className="border border-border bg-card h-full flex flex-col">
+    <div
+      ref={ref}
+      className="border border-border bg-card h-full flex flex-col"
+    >
       {/* Header bar */}
-      <div className="px-5 py-3 flex items-center justify-between shrink-0" style={{ backgroundColor: "#FE9D6F" }}>
+      <div
+        className="px-5 py-3 flex items-center justify-between shrink-0"
+        style={{ backgroundColor: "#19181E" }}
+      >
         <span className="text-sm font-bold tracking-[0.18em] uppercase text-white">
           {locale === "vi" ? "Các Dự Án Tiêu Biểu" : "Featured Projects"}
         </span>
@@ -154,13 +181,22 @@ export function ProjectsPreview() {
           style={{
             width: `${trackWidthPercent}%`,
             transform: `translate3d(-${activeWindow * windowWidthPercent}%, 0, 0)`,
-            transition: enableTransition ? `transform ${SLIDE_DURATION_MS}ms cubic-bezier(0.22, 0.61, 0.36, 1)` : "none",
+            transition: enableTransition
+              ? `transform ${SLIDE_DURATION_MS}ms cubic-bezier(0.22, 0.61, 0.36, 1)`
+              : "none",
           }}
         >
           {renderedWindows.map((projects, windowIndex) => (
-            <div key={`window-${windowIndex}`} className="h-full divide-y divide-border" style={{ width: `${windowWidthPercent}%` }}>
+            <div
+              key={`window-${windowIndex}`}
+              className="h-full divide-y divide-border"
+              style={{ width: `${windowWidthPercent}%` }}
+            >
               {projects.map((project, projectIndex) =>
-                renderProjectCard(project, `window-${windowIndex}-${project.image}-${projectIndex}`)
+                renderProjectCard(
+                  project,
+                  `window-${windowIndex}-${project.image}-${projectIndex}`,
+                ),
               )}
             </div>
           ))}
