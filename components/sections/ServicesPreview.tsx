@@ -4,8 +4,16 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  Flask, Factory, MapTrifold, Ruler, Eye, Clipboard, BookOpen, Globe,
-  ArrowRight, CaretRight,
+  Flask,
+  Factory,
+  MapTrifold,
+  Ruler,
+  Eye,
+  Clipboard,
+  BookOpen,
+  Globe,
+  ArrowRight,
+  CaretRight,
 } from "@phosphor-icons/react";
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import Link from "next/link";
@@ -36,18 +44,32 @@ export function ServicesPreview() {
         el.querySelectorAll(".gsap-item"),
         { opacity: 0, x: 20 },
         {
-          opacity: 1, x: 0, duration: 0.5, ease: "power3.out", stagger: 0.06,
-          scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
-        }
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+          ease: "power3.out",
+          stagger: 0.06,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        },
       );
     }, el);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={ref} className="border border-border bg-card h-full flex flex-col">
+    <div
+      ref={ref}
+      className="border border-border bg-card h-full flex flex-col"
+    >
       {/* Header bar */}
-      <div className="px-5 py-3 flex items-center justify-between shrink-0" style={{ backgroundColor: "#FE9D6F" }}>
+      <div
+        className="px-5 py-3 flex items-center justify-between shrink-0"
+        style={{ backgroundColor: "#FE9D6F" }}
+      >
         <span className="text-sm font-bold tracking-[0.18em] uppercase text-white">
           {locale === "vi" ? "Lĩnh Vực Hoạt Động" : "Our Services"}
         </span>

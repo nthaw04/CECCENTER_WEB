@@ -20,7 +20,11 @@ const NAV_GROUPS = [
     links: [
       { labelKey: "about" as const, href: "/#about", ns: "nav" as const },
       { labelKey: "team" as const, href: "/team", ns: "nav" as const },
-      { labelKey: "structure" as const, href: "/structure", ns: "nav" as const },
+      {
+        labelKey: "structure" as const,
+        href: "/structure",
+        ns: "nav" as const,
+      },
     ],
   },
   {
@@ -45,6 +49,8 @@ const NAV_GROUPS = [
   },
 ];
 
+const LOGO_SRC = "/images/cec-logo.png";
+
 export function Footer() {
   const { t } = useLanguage();
 
@@ -52,20 +58,24 @@ export function Footer() {
     <footer className="bg-card border-t border-border tracking-tighter">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
-
           {/* ── Left column: brand + contact + social ─────── */}
           <div className="lg:col-span-1 space-y-5">
             {/* Logo + name */}
-            <Link href="/" className="flex items-center gap-3 group" aria-label="CEC Center">
-              <div className="relative w-12 h-12 shrink-0">
+            <Link
+              href="/"
+              className="flex items-center gap-3 group"
+              aria-label="CEC Center"
+            >
+              <div className="relative w-24 h-12 shrink-0">
                 <Image
-                  src="/images/cec-logo.png"
+                  src={LOGO_SRC}
                   alt="CEC Center Logo"
                   fill
-                  sizes="48px"
+                  sizes="96px"
                   className="object-contain"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                    (e.currentTarget as HTMLImageElement).style.display =
+                      "none";
                   }}
                 />
               </div>
@@ -80,18 +90,22 @@ export function Footer() {
             </Link>
 
             {/* Description */}
-            <p className="text-sm leading-relaxed">
-              {t.footer.description}
-            </p>
+            <p className="text-sm leading-relaxed">{t.footer.description}</p>
 
             {/* Contact rows */}
             <ul className="space-y-2.5">
               <li className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 shrink-0 mt-0.5" style={{ color: "#93CAF0" }} weight="fill" />
+                <MapPin
+                  className="h-4 w-4 shrink-0 mt-0.5 text-cec-accent"
+                  weight="fill"
+                />
                 <span className="text-sm">{t.about.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0" style={{ color: "#FE9D6F" }} weight="fill" />
+                <Phone
+                  className="h-4 w-4 shrink-0 text-cec-accent-2"
+                  weight="fill"
+                />
                 <a
                   href={`tel:${t.about.phone.replace(/\s/g, "")}`}
                   className="text-sm hover:text-foreground transition-colors"
@@ -100,7 +114,10 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Envelope className="h-4 w-4 shrink-0" style={{ color: "#93CAF0" }} weight="fill" />
+                <Envelope
+                  className="h-4 w-4 shrink-0 text-cec-accent"
+                  weight="fill"
+                />
                 <a
                   href={`mailto:${t.about.email}`}
                   className="text-sm hover:text-foreground transition-colors"
@@ -111,7 +128,7 @@ export function Footer() {
             </ul>
 
             {/* Social icons */}
-            <div className="flex items-center gap-2 pt-1">
+            {/* <div className="flex items-center gap-2 pt-1">
               {[
                 { Icon: FacebookLogo, label: "Facebook", href: "#" },
                 { Icon: InstagramLogo, label: "Instagram", href: "#" },
@@ -126,14 +143,14 @@ export function Footer() {
                   <Icon className="h-4 w-4" weight="fill" />
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* ── Right columns: nav groups ─────────────────── */}
           <div className="lg:col-span-2 grid grid-cols-2 gap-8">
             {NAV_GROUPS.map(({ titleKey, links }) => (
               <div key={titleKey} className="space-y-4">
-                <h4 className="font-bold text-xs uppercase tracking-widest" style={{ color: "#FE9D6F" }}>
+                <h4 className="font-bold text-xs uppercase tracking-widest text-cec-accent">
                   {t.footer[titleKey]}
                 </h4>
                 <ul className="space-y-2">
@@ -160,7 +177,7 @@ export function Footer() {
 
           {/* ── Map column ───────────────────────────────── */}
           <div className="lg:col-span-2 flex flex-col gap-2">
-            <h4 className="font-bold text-xs uppercase tracking-widest" style={{ color: "#FE9D6F" }}>
+            <h4 className="font-bold text-xs uppercase tracking-widest text-cec-accent">
               Vị Trí
             </h4>
             <div className="w-full h-52 lg:h-full min-h-44 overflow-hidden border border-border">
